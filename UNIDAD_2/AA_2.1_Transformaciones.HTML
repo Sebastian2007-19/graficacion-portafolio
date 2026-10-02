@@ -1,0 +1,79 @@
+function setup() {
+  createCanvas(800, 400);
+}
+
+function draw() {
+  background(240);
+
+  // ETAPA 1
+  push();
+  translate(80, 200);
+  scale(0.6);
+  rotate(-0.08);
+  drawDog("#D9A066", 12);
+  pop();
+
+  // ETAPA 2
+  push();
+  translate(230, 200);
+  scale(0.8);
+  rotate(0.05);
+  drawDog("#C68642", 16);
+  pop();
+
+  // ETAPA 3
+  push();
+  translate(380, 200);
+  scale(1.0);
+  rotate(-0.04);
+  drawDog("#A0522D", 20);
+  pop();
+
+  // ETAPA 4
+  push();
+  translate(550, 200);
+  scale(1.2);
+  rotate(0.04);
+  drawDog("#8B4513", 24);
+  pop();
+
+  // ETAPA 5
+  push();
+  translate(720, 200);
+  scale(1.4);
+  rotate(-0.06);
+  drawDog("#A0A0A0", 28);
+  pop();
+}
+
+
+// FUNCIÓN PARA DIBUJAR SOLO LA CABEZA
+function drawDog(colorPiel, tamOreja) {
+
+  // Cabeza
+  fill(colorPiel);
+  ellipse(0, 0, 70, 65);
+
+  // Oreja izquierda
+  ellipse(-32, -5, tamOreja, tamOreja + 20);
+
+  // Oreja derecha
+  ellipse(32, -5, tamOreja, tamOreja + 20);
+
+  // Ojos
+  fill(0);
+  ellipse(-13, -10, 7, 7);
+  ellipse(13, -10, 7, 7);
+
+  // Nariz
+  ellipse(0, 5, 9, 7);
+
+  // Boca
+  noFill();
+  stroke(0);
+  strokeWeight(2);
+  arc(0, 8, 15, 10, 0, PI);
+
+  noStroke();
+}
+
