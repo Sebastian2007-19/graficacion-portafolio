@@ -1,0 +1,426 @@
+let luces = true;
+let animacion = true;
+
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  angleMode(RADIANS);
+
+
+}
+
+
+function draw() {
+  background(35, 35, 180);
+
+
+  // Escala adaptable para conservar la composición
+  let escala = min(width / 600, height / 650);
+
+  push();
+  translate(
+    (width  -700 * escala) / 2,
+    (height - 650 * escala) / 2
+  );
+  scale(escala);
+
+  let tiempo = animacion ? frameCount : 0;
+
+// Fondo degradado morado y azul
+noStroke();
+
+for (let y = 0; y < 650; y += 5) {
+  let mezcla = map(y, 0, 650, 0, 1);
+
+  let r = lerp(25, 65, mezcla);
+  let g = lerp(5, 15, mezcla);
+  let b = lerp(75, 130, mezcla);
+
+  fill(r, g, b);
+  rect(0, y, 700, 5);
+}
+
+// Suelo morado
+fill(75, 25, 85);
+rect(0, 480, 700, 170);
+
+  // Flores pegadas a la curva del arco
+for (let i = 0; i <= 20; i++) {
+  let angulo = map(i, 0, 20, PI, 0);
+
+  let x = 350 + 300 * cos(angulo);
+  let y = 440 - 300 * sin(angulo);
+
+  push();
+  translate(x, y);
+
+  // Flor pequeña para que siga la curva
+  noStroke();
+
+  for (let j = 0; j < 8; j++) {
+    fill(255, 135 + (j % 2) * 25, 20);
+    ellipse(0, -6, 7, 10);
+    rotate(TWO_PI / 8);
+  }
+
+  fill(180, 70, 15);
+  circle(0, 0, 6);
+  pop();
+}
+
+  
+  // Flores agrupadas en las bases
+  for (let lado = 0; lado < 2; lado++) {
+    let bx = lado === 0 ? 55 : 645;
+    for (let j = 0; j < 7; j++) {
+      dibujarFlor(
+        bx + (j % 3 - 1) * 15,
+        470 + floor(j / 3) * 8,
+        0.9,
+        j
+      );
+    }
+  }
+
+  // Papel picado: dos filas con hilo
+  let colores = [
+    [255, 35, 110],
+    [255, 125, 25],
+    [35, 190, 125],
+    [35, 120, 255],
+    [240, 35, 75],
+    [35, 20, 80]
+  ];
+
+  for (let fila = 0; fila < 2; fila++) {
+    let yBase = 18 + fila * 45;
+
+    stroke(245, 210, 155);
+    strokeWeight(2);
+    line(0, yBase, 700, yBase);
+
+    for (let i = 0; i < 10; i++) {
+      let x = 45 + i * 68;
+      let y = yBase + 5 +
+        sin(tiempo * 0.035 + i + fila) * 2;
+
+      push();
+      translate(x, y);
+      rotate(sin(tiempo * 0.035 + i + fila) * 0.025);
+
+      fill(colores[(i + fila) % colores.length]);
+      stroke(255);
+      strokeWeight(1.5);
+      rect(-22, 0, 44, 32);
+
+      noStroke();
+      fill(255, 245, 225);
+      circle(-11, 10, 5);
+      circle(0, 10, 5);
+      circle(11, 10, 5);
+      triangle(-9, 19, 9, 19, 0, 28);
+      pop();
+    }
+  }
+  noStroke();
+
+  
+  // Logotipo pequeño del instituto
+  push();
+  translate(75, 145);
+  scale(0.35);
+
+  // Engrane
+  translate(0, -25);
+  noFill();
+  stroke(255);
+  strokeWeight(12);
+  circle(0, 0, 130);
+
+  // Dientes del engrane
+  strokeWeight(15);
+  for (let i = 0; i < 8; i++) {
+    push();
+    rotate(i * 45);
+    line(0, -60, 0, -78);
+    pop();
+  }
+
+  // Centro del engrane
+  strokeWeight(5);
+  circle(0, 0, 90);
+  noStroke();
+  fill(255);
+  circle(0, 0, 35);
+
+  // Nombre del instituto
+  fill(255);
+  textAlign(CENTER, CENTER);
+  textStyle(BOLD);
+  textSize(20);
+  text("TECNOLÓGICO", 0, 100);
+  textSize(23);
+  text("FELIPE CARRILLO PUERTO", 0, 135);
+
+  pop();
+  
+// Pantalla con código
+  push();
+  translate(590, 145);
+  fill(10, 25, 45);
+  stroke(40, 240, 180);
+  strokeWeight(2);
+  rect(-48, -28, 96, 56, 6);
+  noStroke();
+  fill(90, 255, 185);
+  textAlign(LEFT);
+  textSize(9);
+  text("if (ISC) {", -39, -12);
+  text(" memoria++;", -39, 0);
+  text(" luz = true;", -39, 12);
+  text("}", -39, 22);
+  pop();
+
+  
+
+  // MESA DEL ALTAR
+
+  noStroke();
+
+  // Escalón superior
+  fill(150, 55, 65);
+  rect(235, 245, 230, 45);
+
+  // Escalón del medio
+  fill(125, 35, 60);
+  rect(195, 290, 310, 45);
+
+  // Escalón inferior
+  fill(100, 25, 55);
+  rect(150, 335, 400, 45);
+
+  // Patas de la mesa
+  fill(115, 35, 65);
+  rect(150, 380, 29, 100);
+  rect(525, 380, 29, 100);
+
+  // Barra inferior para las calaveritas
+  fill(145, 45, 70);
+  rect(155, 425, 390, 15);
+
+  // Flores decorativas de la mesa
+  dibujarFlor(145, 355, 0.8, 0);
+  dibujarFlor(555, 355, 0.8, 1);
+  dibujarFlor(145, 420, 0.7, 2);
+  dibujarFlor(555, 420, 0.7, 3);
+
+  // Velas de la ofrenda
+  dibujarVela(245, 310, 42, tiempo);
+  dibujarVela(455, 310, 42, tiempo);
+  dibujarVela(270, 260, 52, tiempo + 2);
+  dibujarVela(430, 260, 52, tiempo + 4);
+
+  // Panes de muerto
+  dibujarPan(300, 320);
+  dibujarPan(400, 320);
+
+  // Microchip con pines giratorios: objeto principal
+  push();
+  translate(350, 260);
+  if (animacion) rotate(sin(tiempo * 0.03) * 0.08);
+  scale(1 + (animacion ? 0.04 * sin(tiempo * 0.08) : 0));
+
+  stroke(40, 235, 230);
+  strokeWeight(4);
+  for (let i = -1; i <= 1; i++) {
+    line(-25, i * 12, -38, i * 12);
+    line(25, i * 12, 38, i * 12);
+    line(i * 12, -20, i * 12, -33);
+    line(i * 12, 20, i * 12, 33);
+  }
+
+  noStroke();
+  fill(20, 180, 195);
+  rect(-25, -20, 50, 40, 4);
+  fill(10, 35, 65);
+  rect(-14, -10, 28, 20, 3);
+
+  // Objeto anidado: indicador que gira dentro del chip
+  push();
+  rotate(animacion ? tiempo * 0.04 : 0);
+  fill(100, 255, 220);
+  circle(0, 0, 7);
+  pop();
+  pop();
+
+  
+
+  // Calaverita principal
+  push();
+  translate(350, 205);
+  rotate(animacion ? sin(tiempo * 0.04) * 0.06 : 0);
+  scale(1 + (animacion ? 0.025 * sin(tiempo * 0.08) : 0));
+
+  noStroke();
+  fill(255, 240, 205);
+  ellipse(0, 0, 65, 60);
+  rect(-22, 12, 44, 17, 5);
+
+  fill(45, 30, 70);
+  ellipse(-15, -4, 17, 20);
+  ellipse(15, -4, 17, 20);
+
+  fill(240, 55, 100);
+  circle(-15, -4, 7);
+  circle(15, -4, 7);
+
+  fill(45, 30, 70);
+  triangle(-5, 7, 5, 7, 0, 14);
+
+  for (let i = -1; i <= 1; i++) {
+    rect(i * 10 - 2, 16, 4, 10);
+  }
+  pop();
+
+  // Tres calaveritas decorativas
+  for (let i = 0; i < 3; i++) {
+    push();
+    translate(230 + i * 120, 445);
+    rotate(animacion ? sin(tiempo * 0.05 + i) * 0.12 : 0);
+    scale(0.65);
+
+    fill(255, 240, 210);
+    noStroke();
+    ellipse(0, 0, 60, 55);
+    fill(45, 30, 70);
+    circle(-13, -3, 13);
+    circle(13, -3, 13);
+    triangle(-5, 7, 5, 7, 0, 13);
+    rect(-12, 15, 24, 8);
+    fill(255, 240, 210);
+    for (let k = -1; k <= 1; k++) {
+      rect(k * 7 - 1, 15, 2, 7);
+    }
+    pop();
+  }
+
+  // Camino de velas en el suelo
+  for (let i = 0; i < 5; i++) {
+    let y = 510 + i * 27;
+    let separacion = 25 + i * 18;
+    dibujarVela(350 - separacion, y, 17, tiempo + i);
+    dibujarVela(350 + separacion, y, 17, tiempo + i + 3);
+  }
+
+  // Flores a ambos lados del camino
+  for (let i = 0; i < 7; i++) {
+    let y = 515 + i * 19;
+    dibujarFlor(350 - (65 + i * 22), y, 0.65, i);
+    dibujarFlor(350 + (65 + i * 22), y, 0.65, i + 1);
+  }
+
+  // Luz que sigue al cursor
+  if (luces) {
+    let mx = (mouseX - (width - 700 * escala) / 2) / escala;
+    let my = (mouseY - (height - 650 * escala) / 2) / escala;
+
+    noStroke();
+    fill(255, 225, 90, 45);
+    circle(mx, my, 70);
+    fill(255, 245, 160, 75);
+    circle(mx, my, 30);
+  }
+
+  // Instrucción visual
+  fill(255, 245, 220);
+  textAlign(CENTER);
+  textSize(11);
+  text("Haz clic para cambiar la luz y la animación", 350, 635);
+
+  pop();
+}
+
+// Flor de cempasúchil con pétalos rotados
+function dibujarFlor(x, y, tam, giro) {
+  push();
+  translate(x, y);
+  rotate(giro + frameCount * 0.02);
+  scale(tam);
+
+  noStroke();
+  for (let p = 0; p < 10; p++) {
+    push();
+    rotate(TWO_PI * p / 10);
+    fill(p % 2 === 0 ? color(255, 130, 10) : color(255, 170, 25));
+    ellipse(0, -8, 8, 15);
+    pop();
+  }
+  fill(125, 60, 25);
+  circle(0, 0, 8);
+  pop();
+}
+
+// Vela con llama parpadeante
+function dibujarVela(x, y, alto, tiempo) {
+  push();
+  translate(x, y);
+
+  noStroke();
+  fill(255, 240, 205);
+  rect(-10, 0, 20, alto, 3);
+
+  // La llama cambia de escala
+  push();
+  translate(0, -7);
+  let pulso = animacion ? 1 + 0.12 * sin(tiempo * 0.2) : 1;
+  scale(pulso);
+
+  fill(255, 120, 25, 90);
+  ellipse(0, -7, 25, 32);
+  fill(255, 145, 25);
+  ellipse(0, -8, 13, 22);
+  fill(255, 230, 80);
+  ellipse(0, -7, 7, 13);
+  pop();
+
+  pop();
+}
+
+// Pan de muerto sencillo
+function dibujarPan(x, y) {
+  push();
+  translate(x, y);
+  noStroke();
+
+  fill(205, 145, 75);
+  ellipse(0, 0, 42, 27);
+
+  fill(240, 195, 125);
+  ellipse(0, -2, 29, 19);
+
+  // Huesitos decorativos
+  stroke(255, 220, 165);
+  strokeWeight(5);
+  line(-10, -2, 10, -2);
+  line(0, -10, 0, 7);
+
+  noStroke();
+  fill(255, 225, 175);
+  circle(-10, -2, 6);
+  circle(10, -2, 6);
+  circle(0, -10, 6);
+  circle(0, 7, 6);
+  pop();
+}
+
+// Adaptación al tamaño de la ventana
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
+// Interacción con el mouse
+function mousePressed() {
+  luces = !luces;
+  animacion = !animacion;
+}
+  
