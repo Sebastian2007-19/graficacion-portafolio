@@ -1,15 +1,15 @@
 {
-  "name": "proyecto-aa-3.2-escena",
+  "name": "practica-3.2",
   "version": "1.0.0",
-  "description": "Proyecto de escena 3D con Three.js",
-  "main": "main.js",
+  "description": "",
+  "main": "index.js",
   "scripts": {
     "dev": "vite"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
+  "type": "commonjs",
   "dependencies": {
     "three": "^0.187.0"
   },
@@ -17,3 +17,4 @@
     "vite": "^8.3.6"
   }
 }
+
